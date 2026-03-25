@@ -182,6 +182,75 @@ FastAPI将使用 `response_model` 进行以下操作：
 
 ### 5.jinja2模板
 
+### 5.1变量渲染
+
+```markdown
+from fastapi.templating import   Jinja2Templates
+from fastapi import Request
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+@app.get("/index")
+def index(request:Request):
+    name = "root"
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request":request,
+            "user":name,
+            "age":32
+        }
+    )
+
+```
+
+### 5.2过滤器
+
+在模板中，我们可以使用过滤器对数据进行格式化。
+在html文件中，使用 `{{变量 | 过滤器}}`
+
+#### 常见过滤器
+| 过滤器名称 | 说明 |
+| --- | --- |
+| capitalize | 把值的首字母转换成大写，其他子母转换为小写 |
+| lower | 把值转换成小写形式 |
+| title | 把值中每个单词的首字母都转换成大写 |
+| trim | 把值的首尾空格去掉 |
+| striptags | 渲染之前把值中所有的HTML标签都删掉 |
+| join | 拼接多个值为字符串 |
+| round | 默认对数字进行四舍五入，也可以用参数进行控制 |
+| safe | 渲染时值不转义 |
+
+### 5.3控制结构
+分支语句在模板中，使用 `{% if %}`
+for循环在模板中，使用 `{% for %}`
+> 注意： `{% %}` 是控制结构， `{{}}` 是变量渲染。在html 文件中修改
+
+### 6 OMR操作
+
+### 6.1 创建模型类
+
+
+
+### 6.2 ORM的迁移命令
+1. 初始化配置   
+```aerich init -t settings.TORTOISE_ORM```
+
+2. 初始化数据库  
+```aerich init-db```
+
+3. 更新模型并进行迁移  
+```aerich migrate```   
+4. 重新执行迁移，写入数据库
+```aerich upgrade```  
+
+5. 回到上一个版本
+```aerich downgrade``` 
+6. 查看历史迁移记录
+```aerich history```
+
+
+
+
 
 
 
